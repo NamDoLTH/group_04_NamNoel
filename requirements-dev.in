@@ -1,0 +1,16 @@
+# to compile this file, run the command:
+# pip-compile --output-file requirements.txt requirements.in requirements-dev.in
+# test and coverage
+pytest
+coverage[toml]
+# code quality
+flake8
+requests
+mypy
+pylint
+types-requests
+isort
+black
+# accessory
+bs4
+pep8-naming
