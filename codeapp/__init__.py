@@ -18,7 +18,7 @@ port: int = int(os.getenv("DATABASE_PORT", "6379"))
 db_number: int = int(os.getenv("DATABASE_DB", "-1"))
 password = os.getenv("DATABASE_PASSWORD", "")
 assert password != "", "The database configuration seems wrong. Check your `.env` file."
-db: Redis = Redis(host=host, port=port, db=db_number, password=password)  # type: ignore
+db: Redis = Redis(host=host, port=port, db=db_number, password=password)
 if not db.ping():
     raise ValueError("Database could not connect! Check DB parameters and try again.")
 

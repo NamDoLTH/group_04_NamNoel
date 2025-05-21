@@ -95,15 +95,15 @@ def test_html_home(client: FlaskClient) -> None:
     assert_html(response.data.decode("utf-8"))
 
 
-# def test_data(client: FlaskClient) -> None:
-#     response = client.get("/data/")
-#     assert response.status_code == 200, "The `home` route failed to load"
-#     page = BeautifulSoup(response.text, "html.parser")
-#     assert page.find("table"), "The home page is missing the `table`"
-#     td = page.find_all("td")
-#     assert len(td) > 0, "You must have cells in your table"
-#     th = page.find_all("th")
-#     assert len(th) > 0, "You are missing the headers of your table"
+def test_data(client: FlaskClient) -> None:
+    response = client.get("/data/")
+    assert response.status_code == 200, "The `home` route failed to load"
+    page = BeautifulSoup(response.text, "html.parser")
+    assert page.find("table"), "The home page is missing the `table`"
+    td = page.find_all("td")
+    assert len(td) > 0, "You must have cells in your table"
+    th = page.find_all("th")
+    assert len(th) > 0, "You are missing the headers of your table"
 
 
 def test_image(client: FlaskClient) -> None:
