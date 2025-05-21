@@ -21,14 +21,19 @@ def get_data_list() -> list[Game]:
     """
 
     # Check if dataset already exists in Redis
-    current_app.logger.info("Checking if dataset exists in Redis.")
-    length = db.llen("dataset_list")
-    if isinstance(length, int) and length > 0:
-        items: list[bytes] = db.lrange(
-            "dataset_list", 0, -1
-        )  # type: ignore[assignment]
-        games_from_redis: list[Game] = [pickle.loads(item) for item in items]
-        return games_from_redis
+    if db.exists("dataset_list") > 0:  # checks if the `dataset` key already exists
+        current_app.logger.info(
+            "Dataset already downloaded. "
+            f"{db.llen('dataset_list')} items in the database"
+        )
+        dataset_stored: list[Game] = []  # empty list to be returned
+        raw_dataset: list[bytes] = db.lrange("dataset_list", 0, -1)  # get list from DB
+        for raw_item in raw_dataset:
+            dataset_stored.append(pickle.loads(raw_item))  # load item from DB
+        current_app.logger.info(
+            f"Downloaded {len(dataset_stored)} items from the database."
+        )
+        return dataset_stored
 
     # Dataset has not been downloaded, downloading now
     current_app.logger.info("Downloading dataset.")
